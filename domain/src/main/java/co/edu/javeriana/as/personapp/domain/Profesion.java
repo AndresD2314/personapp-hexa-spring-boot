@@ -13,24 +13,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Person {
+public class Profesion {
 	@NonNull
-	private Integer identification;
+	private Integer id;
 	@NonNull
-	private String firstName;
-	@NonNull
-	private String lastName;
-	@NonNull
-	private Gender gender;
-	private Integer age;
-	@ToString.Exclude
-	private List<Phone> phoneNumbers;
+	private String nom;
+	private String des;
 	@ToString.Exclude
 	private List<Study> studies;
-
-	public Boolean isValidAge() {
-		return this.age >= 0;
-	}
-
-  
 }

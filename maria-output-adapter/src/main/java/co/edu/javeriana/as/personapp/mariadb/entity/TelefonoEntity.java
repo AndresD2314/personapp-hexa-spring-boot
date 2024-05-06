@@ -19,7 +19,8 @@ import javax.persistence.Table;
 @Table(name="telefono", catalog = "persona_db", schema = "")
 @NamedQueries({ @NamedQuery(name = "TelefonoEntity.findAll", query = "SELECT t FROM TelefonoEntity t"),
 		@NamedQuery(name = "TelefonoEntity.findByNum", query = "SELECT t FROM TelefonoEntity t WHERE t.num = :num"),
-		@NamedQuery(name = "TelefonoEntity.findByOper", query = "SELECT t FROM TelefonoEntity t WHERE t.oper = :oper") })
+		@NamedQuery(name = "TelefonoEntity.findByOper", query = "SELECT t FROM TelefonoEntity t WHERE t.oper = :oper"),
+		@NamedQuery(name = "TelefonoEntity.findByDuenio", query = "SELECT t FROM TelefonoEntity t WHERE t.duenio = :duenio") })
 public class TelefonoEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;

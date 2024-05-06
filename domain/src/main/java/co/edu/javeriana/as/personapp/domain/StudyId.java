@@ -1,6 +1,6 @@
 package co.edu.javeriana.as.personapp.domain;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,12 +11,9 @@ import lombok.RequiredArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
-public class Study {
-	@NonNull
-	private Person person;
-	@NonNull
-	private Profesion profession;
-	private LocalDate graduationDate;
-	private String universityName;
+public class StudyId implements Serializable {
+    @NonNull
+    private Integer personId;   
+    @NonNull
+    private Integer professionId;  
 }
