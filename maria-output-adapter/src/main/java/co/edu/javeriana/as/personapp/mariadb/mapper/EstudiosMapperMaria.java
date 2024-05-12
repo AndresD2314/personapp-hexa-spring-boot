@@ -49,10 +49,6 @@ public class EstudiosMapperMaria {
         if (loadDeep) {
             study.setPerson(personaMapperMaria.fromAdapterToDomain(estudiosEntity.getPersona(), true));
             study.setProfession(profesionMapperMaria.fromAdapterToDomain(estudiosEntity.getProfesion(), true));
-			System.out.println("ANDRES ES IMBECIL");
-
-		System.out.println(estudiosEntity.getPersona());
-		System.out.println(estudiosEntity.getProfesion());
         }
         study.setGraduationDate(validateGraduationDate(estudiosEntity.getFecha()));
         study.setUniversityName(validateUniversityName(estudiosEntity.getUniver()));

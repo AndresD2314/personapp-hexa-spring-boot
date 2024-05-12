@@ -33,7 +33,6 @@ public class PersonaMapperMaria {
 
         if (loadRelations) {
             personaEntity.setEstudios(estudiosMapperMaria.validateEstudios(person.getStudies(), true));
-            personaEntity.setTelefonos(telefonoMapperMaria.validateTelefonos(person.getPhoneNumbers()));
         }
 
         return personaEntity;
@@ -49,7 +48,6 @@ public class PersonaMapperMaria {
 
         if (loadRelations) {
             person.setStudies(estudiosMapperMaria.validateStudies(personaEntity.getEstudios(), true));
-            person.setPhoneNumbers(telefonoMapperMaria.validatePhones(personaEntity.getTelefonos()));
         }
 
         return person;

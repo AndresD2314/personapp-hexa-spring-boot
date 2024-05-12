@@ -26,9 +26,10 @@ public class EstudiosEntityPK implements Serializable {
 	public EstudiosEntityPK() {
 	}
 
-	public EstudiosEntityPK(int idProf, int ccPer) {
-		this.idProf = idProf;
+	public EstudiosEntityPK(int ccPer, int idProf) {
 		this.ccPer = ccPer;
+		this.idProf = idProf;
+		
 	}
 
 	public int getIdProf() {

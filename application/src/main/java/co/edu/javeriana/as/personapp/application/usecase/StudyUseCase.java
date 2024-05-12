@@ -31,17 +31,44 @@ public class StudyUseCase implements StudyInputPort {
         return studyPersistence.save(study);
     }
 
-    @Override
-    public Study edit(StudyId studyId, Study study) throws NoExistException {
-        log.debug("Editing study with ID: {}", studyId);
-        Study existingStudy = studyPersistence.findById(studyId);
-        if (existingStudy != null) {
-            // Aquí podemos asumir que el estudio a editar ya tiene las referencias correctas de persona y profesión.
-            // Si es necesario, asegúrate de actualizar estos campos o manejar la lógica de negocio específica aquí.
-            return studyPersistence.save(study);
-        }
+   @Override
+public Study edit(StudyId studyId, Study study) throws NoExistException {
+    log.debug("Editing study with ID: {}", studyId);
+    Study existingStudy = studyPersistence.findById(studyId);
+
+    if (existingStudy == null) {
+        log.warn("No study found with ID: {}, cannot proceed with editing", studyId);
         throw new NoExistException("Study does not exist, cannot be edited");
     }
+
+    // Log the details of the study retrieved for debugging
+    log.debug("Retrieved study details: {}", existingStudy);
+
+    // Update the study details from the provided study object
+    // Assume that the study object has all the necessary details provided
+    // You may need to ensure that only specific fields are updated if not all fields are supposed to change
+    if (study.getUniversityName() != null) {
+        existingStudy.setUniversityName(study.getUniversityName());
+    }
+    if (study.getGraduationDate() != null) {
+        existingStudy.setGraduationDate(study.getGraduationDate());
+    }
+    if (study.getPerson() != null) {
+        existingStudy.setPerson(study.getPerson());
+    }
+    if (study.getProfession() != null) {
+        existingStudy.setProfession(study.getProfession());
+    }
+
+    // Additional business logic can be handled here
+    // For example, validating changes, applying business rules, etc.
+
+    // Save the updated study
+    Study updatedStudy = studyPersistence.save(existingStudy);
+    log.debug("Study updated successfully with ID: {}", studyId);
+
+    return updatedStudy;
+}
 
     @Override
     public Boolean drop(StudyId studyId) throws NoExistException {

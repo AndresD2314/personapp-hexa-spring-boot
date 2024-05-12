@@ -60,6 +60,8 @@ public class StudyOutputAdapterMaria implements StudyOutputPort {
     @Override
     public Study findById(StudyId studyId) {
         EstudiosEntityPK pk = new EstudiosEntityPK(studyId.getPersonId(), studyId.getProfessionId());
+        log.info("Looking for study with persona ID: {} and profession ID: {}", studyId.getPersonId(), studyId.getProfessionId());
+
         return estudiosRepositoryMaria.findById(pk)
                 .map(estudiosEntity -> estudiosMapperMaria.fromAdapterToDomain(estudiosEntity, true))  // Check for nulls and handle accordingly
                 .orElse(null);

@@ -15,48 +15,29 @@ import lombok.NonNull;
 @Mapper
 public class TelefonoMapperMaria {
 
-    @Autowired
-    private PersonaMapperMaria personaMapperMaria;
-
-    public TelefonoEntity fromDomainToAdapter(Phone phone, boolean loadOwner) {
+    public TelefonoEntity fromDomainToEntity(Phone phone, boolean loadRelations) {
         TelefonoEntity telefonoEntity = new TelefonoEntity();
         telefonoEntity.setNum(phone.getNumber());
         telefonoEntity.setOper(phone.getCompany());
-        if (loadOwner) {
-            telefonoEntity.setDuenio(personaMapperMaria.fromDomainToAdapter(phone.getOwner(), true));
+        if (loadRelations && phone.getOwner() != null) {
+            PersonaEntity ownerEntity = new PersonaEntity();
+            ownerEntity.setCc(phone.getOwner().getIdentification());
+            telefonoEntity.setDuenio(ownerEntity);
         }
         return telefonoEntity;
     }
 
-    public Phone fromAdapterToDomain(TelefonoEntity telefonoEntity, boolean loadOwner) {
+    public Phone fromEntityToDomain(TelefonoEntity telefonoEntity, boolean loadRelations) {
         Phone phone = new Phone();
         phone.setNumber(telefonoEntity.getNum());
         phone.setCompany(telefonoEntity.getOper());
-        if (loadOwner) {
-            phone.setOwner(personaMapperMaria.fromAdapterToDomain(telefonoEntity.getDuenio(), true));
+        if (loadRelations && telefonoEntity.getDuenio() != null) {
+            Person owner = new Person();
+            owner.setIdentification(telefonoEntity.getDuenio().getCc());
+            phone.setOwner(owner);
         }
         return phone;
     }
 
-	public List<TelefonoEntity> validateTelefonos(List<Phone> phones) {
-        return phones.stream()
-                     .map(phone -> this.fromDomainToAdapter(phone, false))
-                     .collect(Collectors.toList());
-    }
 
-	public List<Phone> validatePhones(List<TelefonoEntity> telefonoEntities) {
-    if (telefonoEntities == null) return new ArrayList<>();
-    return telefonoEntities.stream()
-                           .map(telefonoEntity -> this.fromAdapterToDomain(telefonoEntity, false))
-                           .collect(Collectors.toList());
-}
-
-
-    private PersonaEntity validateDuenio(@NonNull Person owner, boolean loadDeep) {
-        return owner != null ? personaMapperMaria.fromDomainToAdapter(owner, loadDeep) : new PersonaEntity();
-    }
-
-    private @NonNull Person validateOwner(PersonaEntity duenio, boolean loadDeep) {
-        return duenio != null ? personaMapperMaria.fromAdapterToDomain(duenio, loadDeep) : new Person();
-    }
 }

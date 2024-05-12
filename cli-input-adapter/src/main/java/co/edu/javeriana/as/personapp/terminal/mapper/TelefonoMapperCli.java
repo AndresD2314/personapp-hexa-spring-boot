@@ -10,7 +10,8 @@ public class TelefonoMapperCli {
         TelefonoModelCli telefonoModelCli = new TelefonoModelCli();
         telefonoModelCli.setNumber(phone.getNumber());
         telefonoModelCli.setCompany(phone.getCompany());
-        telefonoModelCli.setPerson(phone.getOwner().getIdentification());
+        // Handle null owner
+        telefonoModelCli.setPerson(phone.getOwner() != null ? phone.getOwner().getIdentification() : null);
         return telefonoModelCli;
     }
 }

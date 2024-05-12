@@ -70,8 +70,12 @@ public class EstudioInputAdapterCli {
     }
 
     public boolean drop(StudyId studyId) throws NoExistException {
+        log.info("Looking for study with person ID: {} and profession ID: {}", studyId.getPersonId(), studyId.getProfessionId());
+
         log.info("Dropping a study");
 
         return studyInputPort.drop(studyId);
     }
+
+    
 }

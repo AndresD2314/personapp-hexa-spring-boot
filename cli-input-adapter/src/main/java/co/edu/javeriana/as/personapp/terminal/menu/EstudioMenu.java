@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import co.edu.javeriana.as.personapp.common.exceptions.InvalidOptionException;
 import co.edu.javeriana.as.personapp.common.exceptions.NoExistException;
+import co.edu.javeriana.as.personapp.domain.Gender;
 import co.edu.javeriana.as.personapp.domain.Person;
 import co.edu.javeriana.as.personapp.domain.Profesion;
 import co.edu.javeriana.as.personapp.domain.Study;
@@ -144,15 +145,17 @@ public class EstudioMenu {
         }
     }
 
+    @SuppressWarnings("removal")
     private void eliminarEstudio(EstudioInputAdapterCli estudioInputAdapterCli, Scanner keyboard) {
         log.info("Eliminación de un estudio");
         System.out.print("Ingrese el ID de la persona: ");
-        int idPersona = keyboard.nextInt();
+        int personId = keyboard.nextInt();
         System.out.print("Ingrese el ID de la profesión: ");
-        int idProfesion = keyboard.nextInt();
-        
+        int professionId = keyboard.nextInt();
+       
         StudyId studyId = new StudyId();
-
+        studyId.setPersonId(new Integer(personId));
+        studyId.setProfessionId(new Integer(professionId));
         try {
             if (estudioInputAdapterCli.drop(studyId)) {
                 System.out.println("¡Estudio eliminado exitosamente!");
@@ -167,21 +170,25 @@ public class EstudioMenu {
     private void editarEstudio(EstudioInputAdapterCli estudioInputAdapterCli, Scanner keyboard) throws NoExistException {
         log.info("Edición de un estudio");
         System.out.print("Ingrese el ID de la persona para el estudio a editar: ");
-        int idPersona = keyboard.nextInt();
+        int personId = keyboard.nextInt();
         System.out.print("Ingrese el ID de la profesión para el estudio a editar: ");
-        int idProfesion = keyboard.nextInt();
+        int professionId = keyboard.nextInt();
         keyboard.nextLine(); // Limpiar buffer
         System.out.print("Ingrese el nuevo nombre de la universidad: ");
         String univer = keyboard.nextLine();
         System.out.print("Ingrese la nueva fecha de graduación (YYYY-MM-DD): ");
         String fecha = keyboard.nextLine();
-
-        StudyId studyId = new StudyId();
+        
+       
         Study study = new Study();
-        study.setPerson(new Person(idPersona, fecha, fecha, null));
-        study.setProfession(new Profesion(idProfesion, fecha));
+        study.setPerson(new Person(personId, fecha, fecha, Gender.MALE));
+        study.setProfession(new Profesion(professionId, fecha));
         study.setUniversityName(univer);
         study.setGraduationDate(LocalDate.parse(fecha));
+
+        StudyId studyId = new StudyId();
+        studyId.setPersonId(new Integer(personId));
+        studyId.setProfessionId(new Integer(professionId));
 
         if (estudioInputAdapterCli.edit(studyId, study)) {
             System.out.println("¡Estudio editado exitosamente!");

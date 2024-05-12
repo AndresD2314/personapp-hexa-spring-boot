@@ -1,5 +1,11 @@
 package co.edu.javeriana.as.personapp.application.usecase;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
+import co.edu.javeriana.as.personapp.application.port.in.PersonInputPort;
 import co.edu.javeriana.as.personapp.application.port.in.PhoneInputPort;
 import co.edu.javeriana.as.personapp.application.port.out.PhoneOutputPort;
 import co.edu.javeriana.as.personapp.common.annotations.UseCase;
@@ -7,74 +13,69 @@ import co.edu.javeriana.as.personapp.common.exceptions.NoExistException;
 import co.edu.javeriana.as.personapp.domain.Person;
 import co.edu.javeriana.as.personapp.domain.Phone;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.util.List;
 
 @Slf4j
 @UseCase
 public class PhoneUseCase implements PhoneInputPort {
 
-    private PhoneOutputPort phonePersistance;
 
-    public PhoneUseCase (@Qualifier("phoneOutputAdapterMaria") PhoneOutputPort phonePersistance) {
-        this.phonePersistance = phonePersistance;
+    private PhoneOutputPort phonePersistence;
+
+    
+
+
+    public PhoneUseCase(@Qualifier("phoneOutputAdapterMaria") PhoneOutputPort phonePersistence) {
+        this.phonePersistence = phonePersistence;
     }
 
     @Override
-    public void setPersintence(PhoneOutputPort phonePersistance) {
-        this.phonePersistance = phonePersistance;
+    public void setPersistence(PhoneOutputPort phonePersistence) {
+        this.phonePersistence = phonePersistence;
     }
 
     @Override
     public Phone create(Phone phone) {
-        return phonePersistance.save(phone);
+        log.debug("Creating phone record");
+        return phonePersistence.save(phone);
     }
 
     @Override
     public Phone edit(String phoneNumber, Phone phone) throws NoExistException {
-        Phone oldPhone = phonePersistance.findById(phoneNumber);
-
-        if (oldPhone != null) {
-            return phonePersistance.save(phone);
+        Phone existingPhone = phonePersistence.findByNumber(phoneNumber);
+        if (existingPhone != null) {
+            return phonePersistence.save(phone);
         }
-        throw new NoExistException(
-                "The phone with number " + phoneNumber + " does not exist into db, cannot be edited"
-        );
-
+        throw new NoExistException("The phone with number " + phoneNumber + " does not exist in the database, cannot be edited");
     }
 
     @Override
     public Boolean drop(String phoneNumber) throws NoExistException {
-        Phone oldPhone = phonePersistance.findById(phoneNumber);
-
-        if (oldPhone != null) {
-            return phonePersistance.delete(phoneNumber);
+        Phone existingPhone = phonePersistence.findByNumber(phoneNumber);
+        if (existingPhone != null) {
+            return phonePersistence.delete(phoneNumber);
         }
-        throw new NoExistException(
-                "The phone with number " + phoneNumber + " does not exist into db, cannot be deleted"
-        );
+        throw new NoExistException("The phone with number " + phoneNumber + " does not exist in the database, cannot be dropped");
     }
 
     @Override
     public List<Phone> findAll() {
-        log.info("Output: " + phonePersistance.getClass());
-        return phonePersistance.find();
+        return phonePersistence.find();
     }
 
     @Override
     public Phone findOne(String phoneNumber) throws NoExistException {
-        Phone oldPhone = phonePersistance.findById(phoneNumber);
-        if (oldPhone != null)
-            return oldPhone;
-        throw new NoExistException("The phone with number " + phoneNumber + " does not exist into db, cannot be found");
+        Phone phone = phonePersistence.findByNumber(phoneNumber);
+        if (phone != null) {
+            return phone;
+        }
+        throw new NoExistException("The phone with number " + phoneNumber + " does not exist in the database, cannot be found");
     }
 
     @Override
-    public Person getOwner(String phoneNumber) throws NoExistException {
-        Phone oldPhone = phonePersistance.findById(phoneNumber);
-        if (oldPhone != null)
-            return oldPhone.getOwner();
-        throw new NoExistException("The phone with number " + phoneNumber + " does not exist into db, cannot be found");
+    public Integer count() {
+        return findAll().size();
     }
+
+    
 }
