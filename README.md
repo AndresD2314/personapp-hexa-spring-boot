@@ -1,16 +1,27 @@
-# personapp-hexa-spring-boot
-Plantilla Laboratorio Arquitectura Limpia
+# PersonApp-Hexa-Spring-Boot
 
-Instalar MariaDB en puerto 3306
-Instalar MongoDB en puerto 27017
+Este repositorio contiene la implementación de una aplicación que sigue los principios de arquitectura limpia, diseñada para gestionar información relacionada con personas, incluyendo sus profesiones, estudios y números de teléfono asociados.
 
-Ejecutar los scripts en las dbs
+La aplicación ofrece dos formas de interacción: a través de una API REST documentada con Swagger y mediante una interfaz de línea de comandos (CLI).
 
-el adaptador rest corre en el puerto 3000
-el swagger en [http://localhost:3000/swagger-ui.html](http://localhost:3000/doc/swagger-ui/index.html)
+## Requisitos
 
-Son dos adaptadores de entrada, 2 SpringApplication diferentes
+Antes de ejecutar este proyecto, asegúrate de tener Maven instalado en tu máquina. Además, se recomienda habilitar las extensiones o plugins de Lombok y Spring Boot en tu entorno de desarrollo. Si prefieres ejecutar el proyecto de forma manual, las bases de datos se configuran en los archivos `application.properties` con los siguientes puertos:
 
-Deben configurar el lombok en sus IDEs
+- MariaDB: localhost:3306
+- MongoDB: localhost:27017
 
-Pueden hacer Fork a este repo, no editar este repositorio
+## Instrucciones de Ejecución
+
+- Para utilizar el API REST, inicia el proyecto relacionado con `rest-input-adapter`. Luego, accede a la aplicación en ejecución en tu navegador favorito mediante el enlace `http://localhost:3000`.
+- Para utilizar la interfaz CLI, inicia el proyecto relacionado con `cli-input-adapter`. Esto te permitirá acceder a todas las funcionalidades de la aplicación desde la terminal de comandos.
+
+## Licencia
+
+Este proyecto está bajo la Licencia Apache.
+
+## Colaboradores
+
+- Juan Manuel Aguiar
+- Andres Felipe Duarte
+- Humberto Rueda Cataño
