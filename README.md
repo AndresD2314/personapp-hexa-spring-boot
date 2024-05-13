@@ -8,8 +8,8 @@ La aplicación ofrece dos formas de interacción: a través de una API REST docu
 
 Antes de ejecutar este proyecto, asegúrate de tener Maven instalado en tu máquina. Además, se recomienda habilitar las extensiones o plugins de Lombok y Spring Boot en tu entorno de desarrollo. Si prefieres ejecutar el proyecto de forma manual, las bases de datos se configuran en los archivos `application.properties` con los siguientes puertos:
 
-- MariaDB: localhost:3306
-- MongoDB: localhost:27017
+- MariaDB: `localhost:3306`
+- MongoDB: `localhost:27017`
 
 ## Instrucciones de Ejecución
 
