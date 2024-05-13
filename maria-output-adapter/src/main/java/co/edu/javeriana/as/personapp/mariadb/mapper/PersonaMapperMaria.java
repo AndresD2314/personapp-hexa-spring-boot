@@ -29,6 +29,7 @@ public class PersonaMapperMaria {
     public Person fromAdapterToDomain(PersonaEntity personaEntity, boolean loadRelations) {
         Person person = new Person();
         person.setIdentification(personaEntity.getCc());
+        System.out.println(person.getIdentification());
         person.setFirstName(personaEntity.getNombre());
         person.setLastName(personaEntity.getApellido());
         person.setGender(validateGender(personaEntity.getGenero()));

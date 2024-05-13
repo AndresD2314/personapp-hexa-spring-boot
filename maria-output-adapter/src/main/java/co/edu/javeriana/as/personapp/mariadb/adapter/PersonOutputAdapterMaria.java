@@ -26,10 +26,16 @@ public class PersonOutputAdapterMaria implements PersonOutputPort {
 
     @Override
     public Person save(Person person) {
-        log.debug("Into save on Adapter MariaDB");
-        PersonaEntity persistedPersona = personaRepositoryMaria.save(personaMapperMaria.fromDomainToAdapter(person, false));
+        PersonaEntity personaEntity = personaMapperMaria.fromDomainToAdapter(person, false);
+        if (personaEntity.getCc() == null) {
+            log.error("ID is null before saving, which should not happen.");
+            throw new IllegalStateException("ID must be set before saving.");
+        }
+        log.info("Saving person with ID: {}", personaEntity.getCc());
+        PersonaEntity persistedPersona = personaRepositoryMaria.save(personaEntity);
         return personaMapperMaria.fromAdapterToDomain(persistedPersona, false);
     }
+    
 
     @Override
     public Boolean delete(Integer identification) {

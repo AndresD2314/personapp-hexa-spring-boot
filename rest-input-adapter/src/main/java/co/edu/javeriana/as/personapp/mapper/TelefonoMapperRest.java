@@ -9,19 +9,19 @@ import co.edu.javeriana.as.personapp.model.response.TelefonoResponse;
 @Mapper
 public class TelefonoMapperRest {
 
-    public TelefonoResponse fromDomainToAdapterRest(TelefonoResponse telefono) {
-        return fromDomainToAdapterRest(telefono, "MariaDB");
+    public TelefonoResponse fromDomainToAdapterRest(Phone phone) {
+        return fromDomainToAdapterRest(phone, "MariaDB");
     }
 
-    public TelefonoResponse fromDomainToAdapterRestMongo(TelefonoResponse telefono) {
-        return fromDomainToAdapterRest(telefono, "MongoDB");
+    public TelefonoResponse fromDomainToAdapterRestMongo(Phone phone) {
+        return fromDomainToAdapterRest(phone, "MongoDB");
     }
 
-    public TelefonoResponse fromDomainToAdapterRest(TelefonoResponse telefono, String database) {
+    public TelefonoResponse fromDomainToAdapterRest(Phone phone, String database) {
         return new TelefonoResponse(
-                telefono.getNumber(),
-                telefono.getCompany(),
-                telefono.getOwnerId(),
+                phone.getNumber(),
+                phone.getCompany(),
+                phone.getOwner().getIdentification() + "",
                 database,
                 "OK");
     }

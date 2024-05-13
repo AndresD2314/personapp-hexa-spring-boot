@@ -53,7 +53,7 @@ public class EstudiosMapperMaria {
 
 	   public List<EstudiosEntity> validateEstudios(List<Study> studies, boolean loadDeep) {
         return studies.stream()
-                      .map(study -> this.fromDomainToAdapter(study, false))
+                      .map(study -> this.fromDomainToAdapter(study, true))
                       .collect(Collectors.toList());
     }
 

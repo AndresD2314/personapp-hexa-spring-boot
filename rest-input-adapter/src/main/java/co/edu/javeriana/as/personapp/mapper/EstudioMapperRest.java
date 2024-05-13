@@ -31,11 +31,17 @@ public class EstudioMapperRest {
                 "OK");
     }
 
-    public Study fromAdapterToDomain(EstudioRequest request, Person person, Profesion profession) {
+    public Study fromAdapterToDomain(EstudioRequest request, Person person, Profesion profesion) {
+        if (person == null || profesion == null) {
+            throw new IllegalArgumentException("Person and Profession must not be null");
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        return new Study(person,
-                profession,
-                LocalDate.parse(request.getGraduationDate(), formatter), request.getUniversityName());
+        return new Study(
+            person,
+            profesion,
+            LocalDate.parse(request.getGraduationDate(), formatter),
+            request.getUniversityName()
+        );
     }
 
 }
