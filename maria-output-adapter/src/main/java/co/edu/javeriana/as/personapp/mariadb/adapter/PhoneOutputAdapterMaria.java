@@ -29,7 +29,7 @@ public class PhoneOutputAdapterMaria implements PhoneOutputPort {
     public Phone save(Phone phone) {
         log.debug("Saving phone record to MariaDB");
         // Pass the flag for relation loading as false by default, modify as necessary
-        TelefonoEntity persistedTelefono = telefonoRepositoryMaria.save(telefonoMapperMaria.fromDomainToEntity(phone, false));
+        TelefonoEntity persistedTelefono = telefonoRepositoryMaria.save(telefonoMapperMaria.fromDomainToEntity(phone, true));
         return telefonoMapperMaria.fromEntityToDomain(persistedTelefono, true);  // Load relations when returning the saved object
     }
 

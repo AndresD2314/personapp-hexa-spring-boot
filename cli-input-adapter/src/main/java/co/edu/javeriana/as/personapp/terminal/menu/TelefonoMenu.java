@@ -4,10 +4,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import co.edu.javeriana.as.personapp.common.exceptions.InvalidOptionException;
-import co.edu.javeriana.as.personapp.common.exceptions.NoExistException;
-import co.edu.javeriana.as.personapp.domain.Person;
-import co.edu.javeriana.as.personapp.domain.Phone;
 import co.edu.javeriana.as.personapp.terminal.adapter.TelefonoInputAdapterCli;
+import co.edu.javeriana.as.personapp.terminal.model.TelefonoModelCli;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -19,11 +17,12 @@ public class TelefonoMenu {
 
     private static final int OPCION_REGRESAR_MOTOR_PERSISTENCIA = 0;
     private static final int OPCION_VER_TODO = 1;
-    private static final int OPCION_CREAR_TELEFONO = 2;
-    private static final int OPCION_ELIMINAR_TELEFONO = 3;
-    private static final int OPCION_EDITAR_TELEFONO = 4;
+    private static final int OPCION_VER_UNO = 2;
+    private static final int OPCION_CREAR = 3;
+    private static final int OPCION_EDITAR = 4;
+    private static final int OPCION_ELIMINAR = 5;
 
-    public void iniciarMenu(TelefonoInputAdapterCli phoneInputAdapterCli, Scanner keyboard) {
+    public void iniciarMenu(TelefonoInputAdapterCli telefonoInputAdapterCli, Scanner keyboard) {
         boolean isValid = false;
         do {
             try {
@@ -34,12 +33,12 @@ public class TelefonoMenu {
                         isValid = true;
                         break;
                     case PERSISTENCIA_MARIADB:
-                        phoneInputAdapterCli.setPhoneOutputPortInjection("MARIA");
-                        menuOpciones(phoneInputAdapterCli, keyboard);
+                        telefonoInputAdapterCli.setPhoneOutputPortInjection("MARIA");
+                        menuOpciones(telefonoInputAdapterCli, keyboard);
                         break;
                     case PERSISTENCIA_MONGODB:
-                        phoneInputAdapterCli.setPhoneOutputPortInjection("MONGO");
-                        menuOpciones(phoneInputAdapterCli, keyboard);
+                        telefonoInputAdapterCli.setPhoneOutputPortInjection("MONGO");
+                        menuOpciones(telefonoInputAdapterCli, keyboard);
                         break;
                     default:
                         log.warn("La opción elegida no es válida.");
@@ -50,43 +49,76 @@ public class TelefonoMenu {
         } while (!isValid);
     }
 
-    private void menuOpciones(TelefonoInputAdapterCli phoneInputAdapterCli, Scanner keyboard) {
+    private void menuOpciones(TelefonoInputAdapterCli telefonoInputAdapterCli, Scanner keyboard) {
         boolean isValid = false;
         do {
-            try {
-                mostrarMenuOpciones();
-                int opcion = leerOpcion(keyboard);
-                switch (opcion) {
-                    case OPCION_REGRESAR_MODULOS:
-                        isValid = true;
-                        break;
-                    case OPCION_VER_TODO:
-                        phoneInputAdapterCli.listPhones();
-                        break;
-                    case OPCION_CREAR_TELEFONO:
-                        crearTelefono(phoneInputAdapterCli, keyboard);
-                        break;
-                    case OPCION_ELIMINAR_TELEFONO:
-                        eliminarTelefono(phoneInputAdapterCli, keyboard);
-                        break;
-                    case OPCION_EDITAR_TELEFONO:
-                        editarTelefono(phoneInputAdapterCli, keyboard);
-                        break;
-                    default:
-                        log.warn("La opción elegida no es válida.");
-                }
-            } catch (InputMismatchException | NoExistException e) {
-                log.warn("Solo se permiten números.");
+            mostrarMenuOpciones();
+            int opcion = leerOpcion(keyboard);
+            switch (opcion) {
+                case OPCION_REGRESAR_MOTOR_PERSISTENCIA:
+                    isValid = true;
+                    break;
+                case OPCION_VER_TODO:
+                    verTodos(telefonoInputAdapterCli);
+                    break;
+                case OPCION_VER_UNO:
+                    verUno(telefonoInputAdapterCli, keyboard);
+                    break;
+                case OPCION_CREAR:
+                    crearTelefono(telefonoInputAdapterCli, keyboard);
+                    break;
+                case OPCION_EDITAR:
+                    editarTelefono(telefonoInputAdapterCli, keyboard);
+                    break;
+                case OPCION_ELIMINAR:
+                    eliminarTelefono(telefonoInputAdapterCli, keyboard);
+                    break;
+                default:
+                    log.warn("La opción elegida no es válida.");
             }
         } while (!isValid);
     }
 
+    private void verTodos(TelefonoInputAdapterCli telefonoInputAdapterCli) {
+        telefonoInputAdapterCli.historial();
+    }
+
+    private void verUno(TelefonoInputAdapterCli telefonoInputAdapterCli, Scanner keyboard) {
+        String number = leerNumero(keyboard);
+        if (!number.isEmpty()) {
+            telefonoInputAdapterCli.obtenerTelefono(number);
+        } else {
+            System.out.println("Dato incorrecto, intenta de nuevo");
+        }
+    }
+
+    private void crearTelefono(TelefonoInputAdapterCli telefonoInputAdapterCli, Scanner keyboard) {
+        TelefonoModelCli telefonoModelCli = leerTelefono(keyboard);
+        telefonoInputAdapterCli.crearTelefono(telefonoModelCli);
+    }
+
+    private void editarTelefono(TelefonoInputAdapterCli telefonoInputAdapterCli, Scanner keyboard) {
+        TelefonoModelCli telefonoModelCli = leerTelefono(keyboard);
+        telefonoInputAdapterCli.editarTelefono(telefonoModelCli);
+    }
+
+    private void eliminarTelefono(TelefonoInputAdapterCli telefonoInputAdapterCli, Scanner keyboard) {
+        String number = leerNumero(keyboard);
+        if (!number.isEmpty()) {
+            telefonoInputAdapterCli.eliminarTelefono(number);
+        } else {
+            System.out.println("Dato incorrecto, intenta de nuevo");
+        }
+    }
+
+
     private void mostrarMenuOpciones() {
         System.out.println("----------------------");
-        System.out.println(OPCION_VER_TODO + " para ver todos los teléfonos");
-        System.out.println(OPCION_CREAR_TELEFONO + " para crear un nuevo teléfono");
-        System.out.println(OPCION_ELIMINAR_TELEFONO + " para eliminar un teléfono");
-        System.out.println(OPCION_EDITAR_TELEFONO + " para editar un teléfono");
+        System.out.println(OPCION_VER_TODO + " para ver todas los telefonos");
+        System.out.println(OPCION_VER_UNO + " para ver un teléfono");
+        System.out.println(OPCION_CREAR + " para crear un teléfono");
+        System.out.println(OPCION_EDITAR + " para editar un teléfono");
+        System.out.println(OPCION_ELIMINAR + " para eliminar un teléfono");
         System.out.println(OPCION_REGRESAR_MOTOR_PERSISTENCIA + " para regresar");
     }
 
@@ -102,69 +134,35 @@ public class TelefonoMenu {
             System.out.print("Ingrese una opción: ");
             return keyboard.nextInt();
         } catch (InputMismatchException e) {
-            keyboard.next(); // Clear buffer
             log.warn("Solo se permiten números.");
             return leerOpcion(keyboard);
         }
     }
 
-    public void crearTelefono(TelefonoInputAdapterCli phoneInputAdapterCli, Scanner keyboard) throws NoExistException {
-        System.out.print("Ingrese una opción: ");
-        int option = keyboard.nextInt();  // User inputs the integer and hits enter
-        keyboard.nextLine();  // Consume the leftover newline
-    
-        if (option == 2) {  // Assuming '2' is the option to create a new phone
-            System.out.print("Ingrese el número del teléfono: ");
-            String number = keyboard.nextLine();  // Now this should work properly
-    
-            System.out.print("Ingrese el operador del teléfono: ");
-            String operator = keyboard.nextLine();
-    
-            System.out.print("Ingrese el ID del dueño del teléfono: ");
-            int ownerId = keyboard.nextInt();
-            keyboard.nextLine();  // Consume the newline after reading an int
-    
-            // Proceed with creating the phone using the input details
-            // Check the results and respond appropriately
-            boolean created = phoneInputAdapterCli.createPhone(number, operator, ownerId);
-            if (created) {
-                System.out.println("SE CREÓ EL NUEVO TELÉFONO DE MANERA CORRECTA!");
-            } else {
-                System.out.println("NO SE PUDO CREAR EL TELÉFONO");
-            }
+    private String leerNumero(Scanner keyboard) {
+        try {
+            System.out.print("Ingrese el número de teléfono: ");
+            return keyboard.next();
+        } catch (InputMismatchException e) {
+            log.warn("Solo se permiten cadenas.");
+            return "";
         }
     }
-    
-    
 
-    private void eliminarTelefono(TelefonoInputAdapterCli phoneInputAdapterCli, Scanner keyboard) throws NoExistException {
-        log.info("Eliminación de un teléfono");
-        System.out.print("Ingrese el número del teléfono que desea eliminar: ");
-        String phoneNumber = keyboard.next();
-
-        if (phoneInputAdapterCli.drop(phoneNumber))
-            System.out.println("SE ELIMINÓ DE MANERA CORRECTA EL TELÉFONO!");
-        else
-            throw new NoExistException("El teléfono con el número proporcionado no existe en la base de datos, no se pudo eliminar");
+    private TelefonoModelCli leerTelefono(Scanner keyboard) {
+        try {
+            System.out.print("Ingrese el número de teléfono: ");
+            keyboard.nextLine();
+            String num = keyboard.nextLine();
+            System.out.print("Ingrese la compañía del teléfono: ");
+            String company = keyboard.nextLine();
+            System.out.print("Ingrese la cedula de la persona: ");
+            int cc = keyboard.nextInt();
+            return new TelefonoModelCli(num, company, cc);
+        } catch (InputMismatchException e) {
+            log.warn("Algún dato ingresado fue incorrecto. Intenta de nuevo");
+            return new TelefonoModelCli("", "", 0);
+        }
     }
 
-    private void editarTelefono(TelefonoInputAdapterCli phoneInputAdapterCli, Scanner keyboard) throws NoExistException {
-        log.info("Edición de un teléfono");
-        System.out.print("Ingrese el número del teléfono que desea editar: ");
-        String phoneNumber = keyboard.next();
-        keyboard.nextLine(); // Clear buffer
-        System.out.print("Ingrese el nuevo operador del teléfono: ");
-        String newCompany = keyboard.nextLine();
-
-        Phone phone = new Phone();
-        phone.setNumber(phoneNumber);
-        phone.setCompany(newCompany);
-        // Preserving existing owner ID for simplicity
-        phone.setOwner(new Person(phoneInputAdapterCli.findPhoneOwner(phoneNumber), null, null, null, null, null, null));
-
-        if (phoneInputAdapterCli.edit(phoneNumber, phone))
-            System.out.println("Se pudo editar el teléfono");
-        else
-            System.out.println("No se pudo editar el teléfono");
-    }
 }

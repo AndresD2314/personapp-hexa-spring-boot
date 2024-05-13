@@ -74,9 +74,13 @@ public class ProfesionInputAdapterCli {
             return false;
     }
 
-    public boolean drop(Integer id) throws NoExistException {
-        log.info("Dropping a profession");
-
-        return profesionInputPort.drop(id);
+    public void drop(Integer id) throws NoExistException {
+        try {
+            System.out.println(id);
+            profesionInputPort.drop(id);
+            System.out.println("Profesión con la identificación " + id + " ha sido eliminada");
+        } catch (Exception e) {;
+            System.out.println("La profesión no ha podido ser eliminada");
+        }
     }
 }

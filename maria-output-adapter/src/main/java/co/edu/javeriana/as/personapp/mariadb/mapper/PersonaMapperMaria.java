@@ -1,27 +1,15 @@
 package co.edu.javeriana.as.personapp.mariadb.mapper;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import co.edu.javeriana.as.personapp.common.annotations.Mapper;
 import co.edu.javeriana.as.personapp.domain.Gender;
 import co.edu.javeriana.as.personapp.domain.Person;
-import co.edu.javeriana.as.personapp.domain.Phone;
-import co.edu.javeriana.as.personapp.domain.Study;
-import co.edu.javeriana.as.personapp.mariadb.entity.EstudiosEntity;
 import co.edu.javeriana.as.personapp.mariadb.entity.PersonaEntity;
-import co.edu.javeriana.as.personapp.mariadb.entity.TelefonoEntity;
 import lombok.NonNull;
 @Mapper
 public class PersonaMapperMaria {
 
     @Autowired
     private EstudiosMapperMaria estudiosMapperMaria;
-    @Autowired
-    private TelefonoMapperMaria telefonoMapperMaria;
 
     public PersonaEntity fromDomainToAdapter(@NonNull Person person, boolean loadRelations) {
         PersonaEntity personaEntity = new PersonaEntity();

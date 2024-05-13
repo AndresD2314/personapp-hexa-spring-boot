@@ -42,8 +42,8 @@ public class ProfesionOutputAdapterMongo implements ProfesionOutputPort {
     @Override
     public Boolean delete(Integer id) {
         log.debug("Into delete on Adapter MongoDB");
-        profesionRepositoryMongo.deleteById(String.valueOf(id));
-        return !profesionRepositoryMongo.findById(String.valueOf(id)).isPresent();
+        profesionRepositoryMongo.deleteById(id);
+        return !profesionRepositoryMongo.findById(id).isPresent();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ProfesionOutputAdapterMongo implements ProfesionOutputPort {
     @Override
     public Profesion findById(Integer id) {
         log.debug("Into findById on Adapter MongoDB");
-        return profesionRepositoryMongo.findById(String.valueOf(id))
+        return profesionRepositoryMongo.findById(id)
                 .map(profesionMapperMongo::fromAdapterToDomain)
                 .orElse(null);
     }

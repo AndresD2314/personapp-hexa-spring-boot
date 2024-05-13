@@ -14,9 +14,7 @@ import co.edu.javeriana.as.personapp.domain.Profesion;
 import co.edu.javeriana.as.personapp.mariadb.entity.ProfesionEntity;
 import co.edu.javeriana.as.personapp.mariadb.mapper.ProfesionMapperMaria;
 import co.edu.javeriana.as.personapp.mariadb.repository.ProfesionRepositoryMaria;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Adapter("profesionOutputAdapterMaria")
 @Transactional
 public class ProfesionOutputAdapterMaria implements ProfesionOutputPort {

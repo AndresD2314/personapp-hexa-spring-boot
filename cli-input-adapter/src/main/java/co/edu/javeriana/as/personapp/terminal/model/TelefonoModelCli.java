@@ -1,6 +1,4 @@
 package co.edu.javeriana.as.personapp.terminal.model;
-
-import co.edu.javeriana.as.personapp.domain.Person;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +10,6 @@ public class TelefonoModelCli {
 
     private String number;
     private String company;
-    private Integer person;
+    private Integer personId;
 
 }

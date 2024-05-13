@@ -11,19 +11,20 @@ import co.edu.javeriana.as.personapp.domain.Profesion;
 import co.edu.javeriana.as.personapp.domain.Study;
 import co.edu.javeriana.as.personapp.mongo.document.EstudiosDocument;
 import co.edu.javeriana.as.personapp.mongo.document.ProfesionDocument;
+import lombok.NonNull;
 
 @Mapper
 public class ProfesionMapperMongo {
-	
+
 	@Autowired
 	private EstudiosMapperMongo estudiosMapperMongo;
 
-	public ProfesionDocument fromDomainToAdapter(Profesion profession) {
+	public ProfesionDocument fromDomainToAdapter(@NonNull Profesion profesion) {
 		ProfesionDocument profesionDocument = new ProfesionDocument();
-		profesionDocument.setId(profession.getId());
-		profesionDocument.setNom(profession.getNom());
-		profesionDocument.setDes(validateDes(profession.getDes()));
-		profesionDocument.setEstudios(validateEstudios(profession.getStudies()));
+		profesionDocument.setId(profesion.getId());
+		profesionDocument.setNom(profesion.getNom());
+		profesionDocument.setDes(validateDes(profesion.getDes()));
+		profesionDocument.setEstudios(validateEstudios(profesion.getStudies()));
 		return profesionDocument;
 	}
 
@@ -42,7 +43,7 @@ public class ProfesionMapperMongo {
 		profession.setId(profesionDocument.getId());
 		profession.setNom(profesionDocument.getNom());
 		profession.setDes(validateDescription(profesionDocument.getDes()));
-		profession.setStudies(validateStudies(profesionDocument.getEstudios()));
+		// profession.setStudies(validateStudies(profesionDocument.getEstudios()));
 		return profession;
 	}
 
@@ -50,9 +51,5 @@ public class ProfesionMapperMongo {
 		return des != null ? des : "";
 	}
 
-	private List<Study> validateStudies(List<EstudiosDocument> estudiosDocument) {
-		return estudiosDocument != null && !estudiosDocument.isEmpty() ? estudiosDocument.stream()
-				.map(estudio -> estudiosMapperMongo.fromAdapterToDomain(estudio)).collect(Collectors.toList())
-				: new ArrayList<Study>();
-	}
+
 }

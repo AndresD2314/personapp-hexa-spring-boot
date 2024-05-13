@@ -1,17 +1,14 @@
 package co.edu.javeriana.as.personapp.terminal.menu;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import co.edu.javeriana.as.personapp.common.exceptions.InvalidOptionException;
-import co.edu.javeriana.as.personapp.common.exceptions.NoExistException;
-import co.edu.javeriana.as.personapp.domain.Gender;
-import co.edu.javeriana.as.personapp.domain.Person;
-import co.edu.javeriana.as.personapp.domain.Profesion;
-import co.edu.javeriana.as.personapp.domain.Study;
 import co.edu.javeriana.as.personapp.domain.StudyId;
 import co.edu.javeriana.as.personapp.terminal.adapter.EstudioInputAdapterCli;
+import co.edu.javeriana.as.personapp.terminal.model.EstudioModelCli;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,33 +17,33 @@ public class EstudioMenu {
     private static final int OPCION_REGRESAR_MODULOS = 0;
     private static final int PERSISTENCIA_MARIADB = 1;
     private static final int PERSISTENCIA_MONGODB = 2;
-
     private static final int OPCION_REGRESAR_MOTOR_PERSISTENCIA = 0;
     private static final int OPCION_VER_TODO = 1;
-    private static final int OPCION_CREAR_ESTUDIO = 2;
-    private static final int OPCION_ELIMINAR_ESTUDIO = 3;
-    private static final int OPCION_EDITAR_ESTUDIO = 4;
+    private static final int OPCION_VER_UNO = 2;
+    private static final int OPCION_CREAR = 3;
+    private static final int OPCION_EDITAR = 4;
+    private static final int OPCION_ELIMINAR = 5;
 
-    public void iniciarMenu(EstudioInputAdapterCli estudioInputAdapterCli, Scanner keyboard) throws NoExistException {
+    public void iniciarMenu(EstudioInputAdapterCli estudiosInputAdapterCli, Scanner keyboard) {
         boolean isValid = false;
         do {
             try {
                 mostrarMenuMotorPersistencia();
                 int opcion = leerOpcion(keyboard);
                 switch (opcion) {
-                case OPCION_REGRESAR_MODULOS:
-                    isValid = true;
-                    break;
-                case PERSISTENCIA_MARIADB:
-                    estudioInputAdapterCli.setStudyOutputPortInjection("MARIA");
-                    menuOpciones(estudioInputAdapterCli, keyboard);
-                    break;
-                case PERSISTENCIA_MONGODB:
-                    estudioInputAdapterCli.setStudyOutputPortInjection("MONGO");
-                    menuOpciones(estudioInputAdapterCli, keyboard);
-                    break;
-                default:
-                    log.warn("La opción elegida no es válida.");
+                    case OPCION_REGRESAR_MODULOS:
+                        isValid = true;
+                        break;
+                    case PERSISTENCIA_MARIADB:
+                        estudiosInputAdapterCli.setStudyOutputPortInjection("MARIA");
+                        menuOpciones(estudiosInputAdapterCli, keyboard);
+                        break;
+                    case PERSISTENCIA_MONGODB:
+                        estudiosInputAdapterCli.setStudyOutputPortInjection("MONGO");
+                        menuOpciones(estudiosInputAdapterCli, keyboard);
+                        break;
+                    default:
+                        log.warn("La opción elegida no es válida.");
                 }
             } catch (InvalidOptionException e) {
                 log.warn(e.getMessage());
@@ -54,146 +51,138 @@ public class EstudioMenu {
         } while (!isValid);
     }
 
-    private void menuOpciones(EstudioInputAdapterCli estudioInputAdapterCli, Scanner keyboard) throws NoExistException {
+    private void menuOpciones(EstudioInputAdapterCli estudiosInputAdapterCli, Scanner keyboard) {
         boolean isValid = false;
         do {
-            try {
-                mostrarMenuOpciones();
-                int opcion = leerOpcion(keyboard);
-                switch (opcion) {
-                    case OPCION_REGRESAR_MODULOS:
-                        isValid = true;
-                        break;
-                    case OPCION_VER_TODO:
-                        estudioInputAdapterCli.historial();
-                        break;
-                    case OPCION_CREAR_ESTUDIO:
-                        crearEstudio(estudioInputAdapterCli, keyboard);
-                        break;
-                    case OPCION_ELIMINAR_ESTUDIO:
-                        eliminarEstudio(estudioInputAdapterCli, keyboard);
-                        break;
-                    case OPCION_EDITAR_ESTUDIO:
-                        editarEstudio(estudioInputAdapterCli, keyboard);
-                        break;
-                    default:
-                        log.warn("La opción elegida no es válida.");
-                }
-            } catch (InputMismatchException e) {
-                log.warn("Error: " + e.getMessage());
-                keyboard.nextLine(); // Clear buffer
+            mostrarMenuOpciones();
+            int opcion = leerOpcion(keyboard);
+            switch (opcion) {
+                case OPCION_REGRESAR_MOTOR_PERSISTENCIA:
+                    isValid = true;
+                    break;
+                case OPCION_VER_TODO:
+                    verTodo(estudiosInputAdapterCli);
+                    break;
+                case OPCION_VER_UNO:
+                    verUno(estudiosInputAdapterCli, keyboard);
+                    break;
+                case OPCION_CREAR:
+                    crearEstudio(estudiosInputAdapterCli, keyboard);
+                    break;
+                case OPCION_EDITAR:
+                    editarEstudio(estudiosInputAdapterCli, keyboard);
+                    break;
+                case OPCION_ELIMINAR:
+                    eliminarEstudio(estudiosInputAdapterCli, keyboard);
+                    break;
+                default:
+                    log.warn("La opción elegida no es válida.");
             }
         } while (!isValid);
     }
 
     private void mostrarMenuOpciones() {
         System.out.println("----------------------");
-        System.out.println(OPCION_VER_TODO + " para ver todos los estudios");
-        System.out.println(OPCION_CREAR_ESTUDIO + " para crear un nuevo estudio");
-        System.out.println(OPCION_ELIMINAR_ESTUDIO + " para eliminar un estudio");
-        System.out.println(OPCION_EDITAR_ESTUDIO + " para editar un estudio");
+        System.out.println(OPCION_VER_TODO + " para ver todas las carreras");
+        System.out.println(OPCION_VER_UNO + " para ver una carrera");
+        System.out.println(OPCION_CREAR + " para crear una carrera");
+        System.out.println(OPCION_EDITAR + " para editar una carrera");
+        System.out.println(OPCION_ELIMINAR + " para eliminar una carrera");
         System.out.println(OPCION_REGRESAR_MOTOR_PERSISTENCIA + " para regresar");
     }
-
+    
     private void mostrarMenuMotorPersistencia() {
         System.out.println("----------------------");
         System.out.println(PERSISTENCIA_MARIADB + " para MariaDB");
         System.out.println(PERSISTENCIA_MONGODB + " para MongoDB");
         System.out.println(OPCION_REGRESAR_MODULOS + " para regresar");
     }
+    
+
+    private void verTodo(EstudioInputAdapterCli estudiosInputAdapterCli) {
+        estudiosInputAdapterCli.historial();
+    }
+
+    private void verUno(EstudioInputAdapterCli estudiosInputAdapterCli, Scanner keyboard) {
+        Integer cc = leerCC(keyboard);
+        Integer id = leerID(keyboard);
+        StudyId studyId = new StudyId(cc, id);
+        if (cc != -1 && id != -1) {
+            estudiosInputAdapterCli.obtenerEstudios(studyId);
+        } else {
+            System.out.println("Dato incorrecto, intenta de nuevo");
+        }
+    }
+
+    private void crearEstudio(EstudioInputAdapterCli estudiosInputAdapterCli, Scanner keyboard) {
+        EstudioModelCli estudiosModelCli = leerEstudios(keyboard);
+        estudiosInputAdapterCli.crearEstudios(estudiosModelCli);
+    }
+
+    private void editarEstudio(EstudioInputAdapterCli estudiosInputAdapterCli, Scanner keyboard) {
+        EstudioModelCli estudiosModelCli = leerEstudios(keyboard);
+        estudiosInputAdapterCli.editarEstudios(estudiosModelCli);
+    }
+
+    private void eliminarEstudio(EstudioInputAdapterCli estudiosInputAdapterCli, Scanner keyboard) {
+        Integer cc = leerCC(keyboard);
+        Integer id = leerID(keyboard);
+        StudyId studyId = new StudyId(cc, id);
+        if (cc != -1 && id != -1) {
+            estudiosInputAdapterCli.eliminarEstudios(studyId);
+        } else {
+            System.out.println("Dato incorrecto, intenta de nuevo");
+        }
+    }
 
     private int leerOpcion(Scanner keyboard) {
-        System.out.print("Ingrese una opción: ");
         try {
+            System.out.print("Ingrese una opción: ");
             return keyboard.nextInt();
         } catch (InputMismatchException e) {
             log.warn("Solo se permiten números.");
-            keyboard.next(); // Clear buffer
+            return leerOpcion(keyboard);
+        }
+    }
+
+    private int leerCC(Scanner keyboard) {
+        try {
+            System.out.print("Ingrese la cedula de la persona: ");
+            return keyboard.nextInt();
+        } catch (InputMismatchException e) {
+            log.warn("Solo se permiten cadenas.");
             return -1;
         }
     }
 
-      private void crearEstudio(EstudioInputAdapterCli estudioInputAdapterCli, Scanner keyboard) {
-        log.info("Creación de un nuevo estudio");
-        keyboard.nextLine(); // Limpiar buffer
-        System.out.print("Ingrese el ID de la persona: ");
-        int idPersona = keyboard.nextInt();
-        System.out.print("Ingrese el ID de la profesión: ");
-        int idProfesion = keyboard.nextInt();
-        keyboard.nextLine(); // Limpiar buffer
-        System.out.print("Ingrese el nombre de la universidad: ");
-        String univer = keyboard.nextLine();
-        System.out.print("Ingrese la fecha de graduación (YYYY-MM-DD): ");
-        String fecha = keyboard.nextLine();
-        
-        // Crear objetos de dominio basados en los ID proporcionados
-        Person person = new Person();
-        person.setIdentification(idPersona);
-        Profesion profession = new Profesion();
-        profession.setId(idProfesion);
-        
-        Study study = new Study();
-        study.setPerson(person);
-        study.setProfession(profession);
-        study.setUniversityName(univer);
-        study.setGraduationDate(LocalDate.parse(fecha));
-
-        if (estudioInputAdapterCli.create(study)) {
-            System.out.println("¡Estudio creado exitosamente!");
-        } else {
-            System.out.println("Error al crear el estudio.");
-        }
-    }
-
-    @SuppressWarnings("removal")
-    private void eliminarEstudio(EstudioInputAdapterCli estudioInputAdapterCli, Scanner keyboard) {
-        log.info("Eliminación de un estudio");
-        System.out.print("Ingrese el ID de la persona: ");
-        int personId = keyboard.nextInt();
-        System.out.print("Ingrese el ID de la profesión: ");
-        int professionId = keyboard.nextInt();
-       
-        StudyId studyId = new StudyId();
-        studyId.setPersonId(new Integer(personId));
-        studyId.setProfessionId(new Integer(professionId));
+    private int leerID(Scanner keyboard) {
         try {
-            if (estudioInputAdapterCli.drop(studyId)) {
-                System.out.println("¡Estudio eliminado exitosamente!");
-            } else {
-                System.out.println("Error al eliminar el estudio.");
-            }
-        } catch (NoExistException e) {
-            System.out.println(e.getMessage());
+            System.out.print("Ingrese el ID de la profesión: ");
+            return keyboard.nextInt();
+        } catch (InputMismatchException e) {
+            log.warn("Solo se permiten cadenas.");
+            return -1;
         }
     }
 
-    private void editarEstudio(EstudioInputAdapterCli estudioInputAdapterCli, Scanner keyboard) throws NoExistException {
-        log.info("Edición de un estudio");
-        System.out.print("Ingrese el ID de la persona para el estudio a editar: ");
-        int personId = keyboard.nextInt();
-        System.out.print("Ingrese el ID de la profesión para el estudio a editar: ");
-        int professionId = keyboard.nextInt();
-        keyboard.nextLine(); // Limpiar buffer
-        System.out.print("Ingrese el nuevo nombre de la universidad: ");
-        String univer = keyboard.nextLine();
-        System.out.print("Ingrese la nueva fecha de graduación (YYYY-MM-DD): ");
-        String fecha = keyboard.nextLine();
-        
-       
-        Study study = new Study();
-        study.setPerson(new Person(personId, fecha, fecha, Gender.MALE));
-        study.setProfession(new Profesion(professionId, fecha));
-        study.setUniversityName(univer);
-        study.setGraduationDate(LocalDate.parse(fecha));
-
-        StudyId studyId = new StudyId();
-        studyId.setPersonId(new Integer(personId));
-        studyId.setProfessionId(new Integer(professionId));
-
-        if (estudioInputAdapterCli.edit(studyId, study)) {
-            System.out.println("¡Estudio editado exitosamente!");
-        } else {
-            System.out.println("Error al editar el estudio.");
+    private EstudioModelCli leerEstudios(Scanner keyboard) {
+        try {
+            System.out.print("Ingrese el id de la persona: ");
+            Integer cc = keyboard.nextInt();
+            System.out.print("Ingrese el ID de la profesión: ");
+            Integer id = keyboard.nextInt();
+            System.out.print("Ingrese la fecha de graduación (dd-MM-yyyy): ");
+            keyboard.nextLine();
+            String fechacad = keyboard.nextLine();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate fecha = LocalDate.parse(fechacad, formatter);
+            System.out.print("Ingrese el nombre de la universidad: ");
+            String university = keyboard.nextLine();
+            return new EstudioModelCli(cc, id, fecha, university);
+        } catch (InputMismatchException e) {
+            log.warn("Datos ingresados incorrectos");
+            return new EstudioModelCli(0, 0, null, "");
         }
     }
+
 }

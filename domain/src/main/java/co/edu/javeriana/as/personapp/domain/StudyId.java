@@ -14,5 +14,7 @@ public class StudyId implements Serializable {
     @NonNull
     private Integer personId;   
     @NonNull
-    private Integer professionId;  
+    private Integer professionId; 
+ 
+
 }

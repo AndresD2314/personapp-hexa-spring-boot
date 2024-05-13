@@ -49,7 +49,7 @@ public class PhoneOutputAdapterMongo implements PhoneOutputPort {
     }
 
     @Override
-    public Phone findById(String phoneNumber) {
+    public Phone findByNumber(String phoneNumber) {
         if (telefonoRepositoryMongo.findById(phoneNumber).isEmpty())
             return null;
         else

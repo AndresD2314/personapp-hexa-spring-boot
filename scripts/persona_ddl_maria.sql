@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `persona_db`.`persona` (
 );
 --
 CREATE TABLE IF NOT EXISTS `persona_db`.`profesion` (
- `id` INT(6) NOT NULL AUTO_INCREMENT,
+ `id` INT(6) NOT NULL,
  `nom` VARCHAR(90) NOT NULL,
  `des` TEXT NULL DEFAULT NULL, 
  CONSTRAINT `profesion_pk` PRIMARY KEY (`id`)

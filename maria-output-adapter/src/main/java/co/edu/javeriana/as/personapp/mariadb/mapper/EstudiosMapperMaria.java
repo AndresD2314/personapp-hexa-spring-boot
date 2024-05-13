@@ -10,14 +10,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import co.edu.javeriana.as.personapp.common.annotations.Mapper;
-import co.edu.javeriana.as.personapp.domain.Person;
 import co.edu.javeriana.as.personapp.domain.Study;
 import co.edu.javeriana.as.personapp.mariadb.entity.EstudiosEntity;
 import co.edu.javeriana.as.personapp.mariadb.entity.EstudiosEntityPK;
-import co.edu.javeriana.as.personapp.mariadb.entity.PersonaEntity;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
-@Slf4j
 @Mapper
 public class EstudiosMapperMaria {
 

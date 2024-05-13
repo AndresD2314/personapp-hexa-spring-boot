@@ -1,15 +1,7 @@
 package co.edu.javeriana.as.personapp.mariadb.mapper;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import co.edu.javeriana.as.personapp.common.annotations.Mapper;
 import co.edu.javeriana.as.personapp.domain.Profesion;
-import co.edu.javeriana.as.personapp.domain.Study;
-import co.edu.javeriana.as.personapp.mariadb.entity.EstudiosEntity;
 import co.edu.javeriana.as.personapp.mariadb.entity.ProfesionEntity;
 import lombok.NonNull;
 
@@ -45,7 +37,5 @@ public class ProfesionMapperMaria {
         return profession;
     }
 
-    private String validateDescription(String description) {
-        return description != null ? description : "";
-    }
+ 
 }

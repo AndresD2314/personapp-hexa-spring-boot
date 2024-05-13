@@ -6,7 +6,6 @@ import java.util.Scanner;
 import co.edu.javeriana.as.personapp.common.exceptions.InvalidOptionException;
 import co.edu.javeriana.as.personapp.common.exceptions.NoExistException;
 import co.edu.javeriana.as.personapp.domain.Profesion;
-import co.edu.javeriana.as.personapp.terminal.adapter.PersonaInputAdapterCli;
 import co.edu.javeriana.as.personapp.terminal.adapter.ProfesionInputAdapterCli;
 import lombok.extern.slf4j.Slf4j;
 
@@ -117,14 +116,26 @@ public class ProfesionMenu {
     private void crearProfesion(ProfesionInputAdapterCli profesionInputAdapterCli, Scanner keyboard) {
     log.info("Creación de una nueva profesión");
     keyboard.nextLine();  // Limpiar buffer de entrada
+    System.out.print("Ingrese el id de la profesion: ");
+    String idStr = keyboard.nextLine();
+    Integer id = null;
+    try {
+        id = Integer.parseInt(idStr);  // Intentar convertir el String a Integer
+    } catch (NumberFormatException e) {
+        log.error("El ID ingresado no es un número válido. Por favor, ingrese un número entero.");
+        return;  // Terminar la ejecución si el ID no es válido
+    }
+
     System.out.print("Ingrese el nombre de la profesión: ");
     String nombre = keyboard.nextLine();
     System.out.print("Ingrese la descripción de la profesión: ");
     String descripcion = keyboard.nextLine();
 
     Profesion profesion = new Profesion();
+    profesion.setId(id);
     profesion.setNom(nombre);
     profesion.setDes(descripcion);
+    
 
     if (profesionInputAdapterCli.create(profesion))
         System.out.println("SE CREÓ LA NUEVA PROFESIÓN DE MANERA CORRECTA!");
@@ -133,15 +144,15 @@ public class ProfesionMenu {
     
 }
 
-private void eliminarProfesion(ProfesionInputAdapterCli profesionInputAdapterCli, Scanner keyboard) throws NoExistException {
-    log.info("Eliminación de una profesión");
+private void eliminarProfesion(ProfesionInputAdapterCli profesionInputAdapterCli, Scanner keyboard) {
     System.out.print("Ingrese el ID de la profesión que desea eliminar: ");
-    Integer idProfesion = keyboard.nextInt();
-
-    if (profesionInputAdapterCli.drop(idProfesion)) {
-        System.out.println("SE ELIMINÓ DE MANERA CORRECTA LA PROFESIÓN!");
-    } else {
-        throw new NoExistException("La profesión con id " + idProfesion + " no existe en la base de datos, no se pudo eliminar.");
+    keyboard.nextLine();
+    Integer id = keyboard.nextInt();
+    try {
+        profesionInputAdapterCli.drop(id);
+        System.out.println("Profesión eliminada correctamente.");
+    } catch (NoExistException e) {
+        System.out.println(e.getMessage());
     }
 }
 
@@ -158,6 +169,7 @@ private void editarProfesion(ProfesionInputAdapterCli profesionInputAdapterCli, 
     Profesion profesion = new Profesion();
     profesion.setNom(nombre);
     profesion.setDes(descripcion);
+    profesion.setId(idProfesion);
 
     if (profesionInputAdapterCli.edit(idProfesion, profesion))
         System.out.println("Se pudo editar la profesión");

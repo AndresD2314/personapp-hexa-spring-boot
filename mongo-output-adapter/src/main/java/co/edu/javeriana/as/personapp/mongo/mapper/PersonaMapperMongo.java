@@ -38,10 +38,8 @@ public class PersonaMapperMongo {
 	}
 
 	private String validateGenero(@NonNull Gender gender) {
-		return gender == Gender.FEMALE ? "F" : gender == Gender.MALE ? "M" : gender == Gender.OTHER ? "O" : " ";
-
+		return gender == Gender.FEMALE ? "F" : gender == Gender.MALE ? "M" : " ";
 	}
-
 
 	private Integer validateEdad(Integer age) {
 		return age != null && age >= 0 ? age : null;
@@ -66,8 +64,8 @@ public class PersonaMapperMongo {
 		person.setLastName(personaDocument.getApellido());
 		person.setGender(validateGender(personaDocument.getGenero()));
 		person.setAge(validateAge(personaDocument.getEdad()));
-		person.setStudies(validateStudies(personaDocument.getEstudios()));
-		person.setPhoneNumbers(validatePhones(personaDocument.getTelefonos()));
+		// person.setStudies(validateStudies(personaDocument.getEstudios()));
+		// person.setPhoneNumbers(validatePhones(personaDocument.getTelefonos()));
 		return person;
 	}
 
@@ -79,15 +77,5 @@ public class PersonaMapperMongo {
 		return edad != null && edad >= 0 ? edad : null;
 	}
 
-	private List<Study> validateStudies(List<EstudiosDocument> estudiosDocuments) {
-		return estudiosDocuments != null && !estudiosDocuments.isEmpty() ? estudiosDocuments.stream()
-				.map(estudio -> estudiosMapperMongo.fromAdapterToDomain(estudio)).collect(Collectors.toList())
-				: new ArrayList<Study>();
-	}
 
-	private List<Phone> validatePhones(List<TelefonoDocument> telefonosDocuments) {
-		return telefonosDocuments != null && !telefonosDocuments.isEmpty() ? telefonosDocuments.stream()
-				.map(telefono -> telefonoMapperMongo.fromAdapterToDomain(telefono)).collect(Collectors.toList())
-				: new ArrayList<Phone>();
-	}
 }

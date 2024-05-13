@@ -43,9 +43,11 @@ public class ProfesionUseCase implements ProfesionInputPort {
     @Override
     public Boolean drop(Integer id) throws NoExistException {
         Profesion oldProfesion = profesionPersistence.findById(id);
-        if (oldProfesion != null)
+        if(oldProfesion != null){
             return profesionPersistence.delete(id);
-        throw new NoExistException("The profesion with id " + id + " does not exist in db, cannot be dropped");
+        }
+        throw new NoExistException("The profession with id " + id + " does not exist into db, cannot be dropped");
+
     }
 
     @Override
