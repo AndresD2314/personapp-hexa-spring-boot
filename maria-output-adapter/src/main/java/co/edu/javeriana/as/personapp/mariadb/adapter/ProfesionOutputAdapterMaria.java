@@ -26,8 +26,8 @@ public class ProfesionOutputAdapterMaria implements ProfesionOutputPort {
 
     @Override
     public Profesion save(Profesion profesion) {
-        ProfesionEntity persistedProfesion = profesionRepositoryMaria.save(profesionMapperMaria.fromDomainToAdapter(profesion, false));  // Assume we do not need to load studies
-        return profesionMapperMaria.fromAdapterToDomain(persistedProfesion, false);  // Avoiding deep loading of relationships
+        ProfesionEntity persistedProfesion = profesionRepositoryMaria.save(profesionMapperMaria.fromDomainToAdapter(profesion, false)); 
+        return profesionMapperMaria.fromAdapterToDomain(persistedProfesion, false);  
     }
 
     @Override
@@ -39,14 +39,14 @@ public class ProfesionOutputAdapterMaria implements ProfesionOutputPort {
     @Override
     public List<Profesion> find() {
         return profesionRepositoryMaria.findAll().stream()
-                .map(profesionEntity -> profesionMapperMaria.fromAdapterToDomain(profesionEntity, false))  // Control deep loading
+                .map(profesionEntity -> profesionMapperMaria.fromAdapterToDomain(profesionEntity, false)) 
                 .collect(Collectors.toList());
     }
 
     @Override
     public Profesion findById(Integer id) {
         return profesionRepositoryMaria.findById(id)
-                .map(profesionEntity -> profesionMapperMaria.fromAdapterToDomain(profesionEntity, false))  // Control deep loading
+                .map(profesionEntity -> profesionMapperMaria.fromAdapterToDomain(profesionEntity, false))  
                 .orElse(null);
     }
 }

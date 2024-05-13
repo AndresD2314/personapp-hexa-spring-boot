@@ -43,7 +43,6 @@ public class ProfesionMapperMongo {
 		profession.setId(profesionDocument.getId());
 		profession.setNom(profesionDocument.getNom());
 		profession.setDes(validateDescription(profesionDocument.getDes()));
-		// profession.setStudies(validateStudies(profesionDocument.getEstudios()));
 		return profession;
 	}
 

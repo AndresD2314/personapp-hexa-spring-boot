@@ -27,9 +27,7 @@ public class PersonOutputAdapterMaria implements PersonOutputPort {
     @Override
     public Person save(Person person) {
         log.debug("Into save on Adapter MariaDB");
-        // Ensure to pass the flag for relation loading
         PersonaEntity persistedPersona = personaRepositoryMaria.save(personaMapperMaria.fromDomainToAdapter(person, false));
-        // Also ensure the flag is used in fromAdapterToDomain correctly
         return personaMapperMaria.fromAdapterToDomain(persistedPersona, false);
     }
 

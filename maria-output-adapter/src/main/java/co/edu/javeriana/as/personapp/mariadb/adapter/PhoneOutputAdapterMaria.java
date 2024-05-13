@@ -28,9 +28,8 @@ public class PhoneOutputAdapterMaria implements PhoneOutputPort {
     @Override
     public Phone save(Phone phone) {
         log.debug("Saving phone record to MariaDB");
-        // Pass the flag for relation loading as false by default, modify as necessary
         TelefonoEntity persistedTelefono = telefonoRepositoryMaria.save(telefonoMapperMaria.fromDomainToEntity(phone, true));
-        return telefonoMapperMaria.fromEntityToDomain(persistedTelefono, true);  // Load relations when returning the saved object
+        return telefonoMapperMaria.fromEntityToDomain(persistedTelefono, true); 
     }
 
     @Override
@@ -44,7 +43,7 @@ public class PhoneOutputAdapterMaria implements PhoneOutputPort {
     public List<Phone> find() {
         log.debug("Fetching all phone records from MariaDB");
         return telefonoRepositoryMaria.findAll().stream()
-                .map(entity -> telefonoMapperMaria.fromEntityToDomain(entity, true))  // Modify the flag as needed based on the relation loading requirement
+                .map(entity -> telefonoMapperMaria.fromEntityToDomain(entity, true)) 
                 .collect(Collectors.toList());
     }
 
@@ -52,7 +51,7 @@ public class PhoneOutputAdapterMaria implements PhoneOutputPort {
     public Phone findByNumber(String phoneNumber) {
         log.debug("Fetching phone record by number from MariaDB");
         return telefonoRepositoryMaria.findById(phoneNumber)
-                .map(entity -> telefonoMapperMaria.fromEntityToDomain(entity, true))  // Assume you might want to load relations when fetching a single item
+                .map(entity -> telefonoMapperMaria.fromEntityToDomain(entity, true)) 
                 .orElse(null);
     }
 }

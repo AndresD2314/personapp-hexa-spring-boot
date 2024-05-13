@@ -30,7 +30,7 @@ public class ProfesionEntity implements Serializable {
 	@Id
 	@Basic(optional = false)
 	@Column(nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // O GenerationType.AUTO dependiendo del soporte de tu base de datos
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Integer id;
 	@Basic(optional = false)
 	@Column(nullable = false, length = 90)

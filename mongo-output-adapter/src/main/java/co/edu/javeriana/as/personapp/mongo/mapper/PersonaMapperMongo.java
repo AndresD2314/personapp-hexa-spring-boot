@@ -64,8 +64,7 @@ public class PersonaMapperMongo {
 		person.setLastName(personaDocument.getApellido());
 		person.setGender(validateGender(personaDocument.getGenero()));
 		person.setAge(validateAge(personaDocument.getEdad()));
-		// person.setStudies(validateStudies(personaDocument.getEstudios()));
-		// person.setPhoneNumbers(validatePhones(personaDocument.getTelefonos()));
+	
 		return person;
 	}
 

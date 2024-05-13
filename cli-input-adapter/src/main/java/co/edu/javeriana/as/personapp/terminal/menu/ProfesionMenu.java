@@ -21,7 +21,6 @@ public class ProfesionMenu {
     private static final int OPCION_CREAR_PROFESION= 2;
 	private static final int OPCION_ELIMINAR_PROFESION = 3;
 	private static final int OPCION_EDITAR_PROFESION = 4;
-    // más opciones
 
     public void iniciarMenu(ProfesionInputAdapterCli profesionInputAdapterCli, Scanner keyboard) {
        
@@ -107,7 +106,7 @@ public class ProfesionMenu {
             System.out.print("Ingrese una opción: ");
             return keyboard.nextInt();
         } catch (InputMismatchException e) {
-            keyboard.next(); // Consume non-integer input to avoid infinite loop
+            keyboard.next();  
             log.warn("Solo se permiten números.");
             return leerOpcion(keyboard);
         }
@@ -115,15 +114,15 @@ public class ProfesionMenu {
 
     private void crearProfesion(ProfesionInputAdapterCli profesionInputAdapterCli, Scanner keyboard) {
     log.info("Creación de una nueva profesión");
-    keyboard.nextLine();  // Limpiar buffer de entrada
+    keyboard.nextLine();  
     System.out.print("Ingrese el id de la profesion: ");
     String idStr = keyboard.nextLine();
     Integer id = null;
     try {
-        id = Integer.parseInt(idStr);  // Intentar convertir el String a Integer
+        id = Integer.parseInt(idStr);  
     } catch (NumberFormatException e) {
         log.error("El ID ingresado no es un número válido. Por favor, ingrese un número entero.");
-        return;  // Terminar la ejecución si el ID no es válido
+        return; 
     }
 
     System.out.print("Ingrese el nombre de la profesión: ");
@@ -160,7 +159,7 @@ private void editarProfesion(ProfesionInputAdapterCli profesionInputAdapterCli, 
     log.info("Edición de una profesión");
     System.out.print("Ingrese el ID de la profesión que desea editar: ");
     Integer idProfesion = keyboard.nextInt();
-    keyboard.nextLine();  // Limpiar buffer de entrada
+    keyboard.nextLine(); 
     System.out.print("Ingrese el nuevo nombre de la profesión: ");
     String nombre = keyboard.nextLine();
     System.out.print("Ingrese la nueva descripción de la profesión: ");

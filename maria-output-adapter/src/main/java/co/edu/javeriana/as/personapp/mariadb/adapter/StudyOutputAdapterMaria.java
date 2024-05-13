@@ -37,9 +37,9 @@ public class StudyOutputAdapterMaria implements StudyOutputPort {
         if (!personaRepository.existsById(study.getPerson().getIdentification()) || !profesionRepository.existsById(study.getProfession().getId())) {
             log.error("Person or Profession does not exist, cannot save study");
             throw new IllegalStateException("Referenced Person or Profession does not exist");
-        }        EstudiosEntity estudioEntity = estudiosMapperMaria.fromDomainToAdapter(study, false);  // Ensure this method correctly handles person and profession
+        }        EstudiosEntity estudioEntity = estudiosMapperMaria.fromDomainToAdapter(study, false); 
         EstudiosEntity persistedEstudio = estudiosRepositoryMaria.save(estudioEntity);
-        return estudiosMapperMaria.fromAdapterToDomain(persistedEstudio, false);  // Make sure relationships are fetched or handled appropriately
+        return estudiosMapperMaria.fromAdapterToDomain(persistedEstudio, false);  
     }
 
     @Override
@@ -52,7 +52,7 @@ public class StudyOutputAdapterMaria implements StudyOutputPort {
     @Override
     public List<Study> find() {
         return estudiosRepositoryMaria.findAll().stream()
-                .map(estudiosEntity -> estudiosMapperMaria.fromAdapterToDomain(estudiosEntity, true))  // Ensure relationships are managed
+                .map(estudiosEntity -> estudiosMapperMaria.fromAdapterToDomain(estudiosEntity, true))  
                 .collect(Collectors.toList());
     }
 
@@ -62,7 +62,7 @@ public class StudyOutputAdapterMaria implements StudyOutputPort {
         log.info("Looking for study with persona ID: {} and profession ID: {}", studyId.getPersonId(), studyId.getProfessionId());
 
         return estudiosRepositoryMaria.findById(pk)
-                .map(estudiosEntity -> estudiosMapperMaria.fromAdapterToDomain(estudiosEntity, true))  // Check for nulls and handle accordingly
+                .map(estudiosEntity -> estudiosMapperMaria.fromAdapterToDomain(estudiosEntity, true))  
                 .orElse(null);
     }
 

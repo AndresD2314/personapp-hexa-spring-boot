@@ -23,7 +23,6 @@ public class PersonaMenu {
 	private static final int OPCION_ELIMINAR_PERSONA = 3;
 	private static final int OPCION_EDITAR_PERSONA = 4;
 
-	// mas opciones
 
 	public void iniciarMenu(PersonaInputAdapterCli personaInputAdapterCli, Scanner keyboard) {
 		boolean isValid = false;

@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class MenuPrincipal {
 
-	// Beans
 	@Autowired
 	private PersonaInputAdapterCli personaInputAdapterCli;
 
@@ -35,7 +34,6 @@ public class MenuPrincipal {
 	private static final int MODULO_TELEFONO = 3;
 	private static final int MODULO_ESTUDIO = 4;
 
-	// Menus
 	private final PersonaMenu personaMenu;
 	private final ProfesionMenu profesionMenu;
 	private final TelefonoMenu telefonoMenu;
@@ -52,7 +50,6 @@ public class MenuPrincipal {
 
 	public void inicio() {
 
-		// personaMenu = new PersonaMenu(personaInputAdapterCli);
 		boolean isValid = false;
 		do {
 			mostrarMenu();

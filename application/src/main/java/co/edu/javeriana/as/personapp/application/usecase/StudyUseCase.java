@@ -76,7 +76,6 @@ public class StudyUseCase implements StudyInputPort {
 
     @Override
     public List<Study> findAllStudies() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findAllStudies'");
     }
 
