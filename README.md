@@ -19,7 +19,6 @@ Antes de ejecutar este proyecto, asegúrate de tener Maven instalado en tu máqu
 
 Ejecuta el siguiente comando para construir los contenedores Docker necesarios:
 
-```bash
 docker-compose build
 
 Paso 2: Levantar los servicios
