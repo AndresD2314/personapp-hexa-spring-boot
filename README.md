@@ -21,75 +21,45 @@ Ejecuta el siguiente comando para construir los contenedores Docker necesarios:
 
 docker-compose build
 
-Paso 2: Levantar los servicios
+**Paso 2:** Levantar los servicios
 
 Levanta todos los servicios definidos en el archivo docker-compose.yml con el siguiente comando:
 
-bash
-Copiar código
-docker-compose up
-Notas importantes
+`docker-compose up`
+
+##Notas importantes
+
 Orden de inicio de las bases de datos y aplicaciones:
 
 Es posible que las bases de datos (MariaDB y MongoDB) se inicien antes que las aplicaciones. Si esto ocurre, simplemente vuelve a ejecutar las aplicaciones con el comando:
 
-bash
-Copiar código
-docker-compose up
-Aplicación por defecto:
+`docker-compose up`
+
+##Aplicación por defecto:
 
 Inicialmente, la aplicación que se ejecutará por defecto es personapp-rest.
 
-Ejecutar la aplicación CLI:
+##Ejecutar la aplicación CLI:
 
 Para probar la aplicación CLI, ejecuta el siguiente comando:
 
-bash
-Copiar código
-docker-compose run -it personapp-cli
-Detener personapp-rest para ejecutar la aplicación CLI:
+ `docker-compose run -it personapp-cli `
+ 
+##Detener personapp-rest para ejecutar la aplicación CLI:
 
 Si deseas detener personapp-rest y ejecutar la aplicación CLI, usa el siguiente comando:
 
-bash
-Copiar código
-docker stop personapp-rest
+`docker stop personapp-rest`
+
 Estado Inicial de las Bases de Datos
-MariaDB:
+##MariaDB:
 
 La base de datos de MariaDB está inicialmente poblada con los datos de la entidad persona.
 
-MongoDB:
+##MongoDB:
 
 La base de datos de MongoDB tiene creado el documento persona.
 
-Resumen de Comandos
-Construir los contenedores:
-
-bash
-Copiar código
-docker-compose build
-Levantar los servicios:
-
-bash
-Copiar código
-docker-compose up
-Reejecutar las aplicaciones si es necesario:
-
-bash
-Copiar código
-docker-compose up
-Probar la aplicación CLI:
-
-bash
-Copiar código
-docker-compose run -it personapp-cli
-Detener personapp-rest para ejecutar la aplicación CLI:
-
-bash
-Copiar código
-docker stop personapp-rest
-Licencia
 Este proyecto está bajo la Licencia Apache.
 
 Colaboradores
