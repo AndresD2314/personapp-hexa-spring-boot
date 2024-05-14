@@ -22,39 +22,81 @@ Ejecuta el siguiente comando para construir los contenedores Docker necesarios:
 ```bash
 docker-compose build
 
-**Paso 2:** Levantar los servicios
-Levanta todos los servicios definidos en el archivo docker-compose.yml con el siguiente comando: `docker-compose up`
+Paso 2: Levantar los servicios
 
-## Ejecutar la aplicacion CLI
+Levanta todos los servicios definidos en el archivo docker-compose.yml con el siguiente comando:
 
-Para probar la aplicación CLI, ejecuta el siguiente comando: `docker-compose run -it personapp-cli`
+bash
+Copiar código
+docker-compose up
+Notas importantes
+Orden de inicio de las bases de datos y aplicaciones:
 
-## Detener personapp-rest para ejecutar la aplicación CLI:
+Es posible que las bases de datos (MariaDB y MongoDB) se inicien antes que las aplicaciones. Si esto ocurre, simplemente vuelve a ejecutar las aplicaciones con el comando:
 
-Si deseas detener personapp-rest y ejecutar la aplicación CLI, usa el siguiente comando:`docker stop personapp-rest`
+bash
+Copiar código
+docker-compose up
+Aplicación por defecto:
 
-### Estado Inicial de las Bases de Datos
+Inicialmente, la aplicación que se ejecutará por defecto es personapp-rest.
 
-##MariaDB
+Ejecutar la aplicación CLI:
+
+Para probar la aplicación CLI, ejecuta el siguiente comando:
+
+bash
+Copiar código
+docker-compose run -it personapp-cli
+Detener personapp-rest para ejecutar la aplicación CLI:
+
+Si deseas detener personapp-rest y ejecutar la aplicación CLI, usa el siguiente comando:
+
+bash
+Copiar código
+docker stop personapp-rest
+Estado Inicial de las Bases de Datos
+MariaDB:
 
 La base de datos de MariaDB está inicialmente poblada con los datos de la entidad persona.
 
-##MongoDB
+MongoDB:
 
 La base de datos de MongoDB tiene creado el documento persona.
 
+Resumen de Comandos
+Construir los contenedores:
 
-## Instrucciones de Ejecución
+bash
+Copiar código
+docker-compose build
+Levantar los servicios:
 
-- Para utilizar el API REST, inicia el proyecto relacionado con `rest-input-adapter`. Luego, accede a la aplicación en ejecución en tu navegador favorito mediante el enlace `http://localhost:3000`.
-- Para utilizar la interfaz CLI, inicia el proyecto relacionado con `cli-input-adapter`. Esto te permitirá acceder a todas las funcionalidades de la aplicación desde la terminal de comandos.
+bash
+Copiar código
+docker-compose up
+Reejecutar las aplicaciones si es necesario:
 
-## Licencia
+bash
+Copiar código
+docker-compose up
+Probar la aplicación CLI:
 
+bash
+Copiar código
+docker-compose run -it personapp-cli
+Detener personapp-rest para ejecutar la aplicación CLI:
+
+bash
+Copiar código
+docker stop personapp-rest
+Licencia
 Este proyecto está bajo la Licencia Apache.
 
-## Colaboradores
+Colaboradores
+Juan Manuel Aguiar
+Andres Felipe Duarte
+Humberto Rueda Cataño
+Copiar código
 
-- Juan Manuel Aguiar
-- Andres Felipe Duarte
-- Humberto Rueda Cataño
+¡Espero que te sea útil!
