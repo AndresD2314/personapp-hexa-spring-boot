@@ -27,7 +27,7 @@ Levanta todos los servicios definidos en el archivo docker-compose.yml con el si
 
 `docker-compose up`
 
-##Notas importantes
+## Notas importantes
 
 Orden de inicio de las bases de datos y aplicaciones:
 
@@ -35,37 +35,32 @@ Es posible que las bases de datos (MariaDB y MongoDB) se inicien antes que las a
 
 `docker-compose up`
 
-##Aplicación por defecto:
+## Aplicación por defecto:
 
 Inicialmente, la aplicación que se ejecutará por defecto es personapp-rest.
 
-##Ejecutar la aplicación CLI:
+## Ejecutar la aplicación CLI:
 
 Para probar la aplicación CLI, ejecuta el siguiente comando:
 
  `docker-compose run -it personapp-cli `
  
-##Detener personapp-rest para ejecutar la aplicación CLI:
+## Detener personapp-rest para ejecutar la aplicación CLI:
 
 Si deseas detener personapp-rest y ejecutar la aplicación CLI, usa el siguiente comando:
 
 `docker stop personapp-rest`
 
 Estado Inicial de las Bases de Datos
-##MariaDB:
+## MariaDB:
 
 La base de datos de MariaDB está inicialmente poblada con los datos de la entidad persona.
 
-##MongoDB:
+## MongoDB:
 
 La base de datos de MongoDB tiene creado el documento persona.
 
-Este proyecto está bajo la Licencia Apache.
-
-Colaboradores
+## Colaboradores
 Juan Manuel Aguiar
 Andres Felipe Duarte
 Humberto Rueda Cataño
-Copiar código
-
-¡Espero que te sea útil!
