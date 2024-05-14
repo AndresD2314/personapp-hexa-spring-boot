@@ -61,6 +61,6 @@ La base de datos de MariaDB está inicialmente poblada con los datos de la entid
 La base de datos de MongoDB tiene creado el documento persona.
 
 ## Colaboradores
-Juan Manuel Aguiar
-Andres Felipe Duarte
-Humberto Rueda Cataño
+- Juan Manuel Aguiar
+- Andres Felipe Duarte
+- Humberto Rueda Cataño
